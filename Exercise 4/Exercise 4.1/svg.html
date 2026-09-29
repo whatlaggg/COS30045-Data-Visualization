@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4.1: Draw SVGs - Appliance Energy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/logo.png" alt="Power Logo" class="logo"
+                    onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'><rect width=\'40\' height=\'40\' fill=\'%23facc15\'/><text x=\'50%\' y=\'50%\' fill=\'black\' font-size=\'20\' font-family=\'Arial\' dominant-baseline=\'middle\' text-anchor=\'middle\'>⚡</text></svg>'">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="televisions.html">Televisions</a></li>
+                <li><a href="svg.html" class="active">SVG Drawing</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Page Overview -->
+        <section class="story-intro">
+            <span class="story-tag">Exercise 4.1 &bull; SVG Primitives</span>
+            <h1>Exploring Scalable Vector Graphics (SVG)</h1>
+            <p class="story-subtitle">
+                Understanding SVG primitive shapes, the Cartesian 2D canvas coordinate system, and element grouping (<code class="inline-code">&lt;g&gt;</code>) with geometric transformations—foundational concepts for D3.js data visualisations.
+            </p>
+        </section>
+
+        <!-- Side-by-Side Comparison (Steps 1, 3, & 4) -->
+        <section>
+            <h2>Side-by-Side Comparison: Before vs. After Customisation</h2>
+            <p>
+                Below are the two versions of the SVG drawing displayed side by side: the initial baseline house built from primitive shapes, and the customised version featuring advanced styling, chimney smoke paths, and grouped translated windows.
+            </p>
+
+            <div class="svg-comparison-grid">
+                <!-- LEFT: BEFORE (Step 1 Baseline House) -->
+                <div class="svg-card">
+                    <div class="svg-card-header">
+                        <h3>Before: Baseline House</h3>
+                        <span class="badge badge-secondary">Step 1</span>
+                    </div>
+                    <div class="svg-viewport">
+                        <!-- SVG 1: Base Primitives -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="canvas-svg">
+                            <!-- 1. <rect> Sky & Ground -->
+                            <rect width="500" height="500" fill="#7DD3FC"/>
+                            <rect y="310" width="500" height="190" fill="#15803D"/>
+
+                            <!-- 2. <ellipse> Cloud -->
+                            <ellipse cx="160" cy="80" rx="36" ry="16" fill="#F0FDF4" opacity="0.8"/>
+
+                            <!-- 3. <circle> Sun & <line> Rays -->
+                            <circle cx="410" cy="90" r="40" fill="#FACC15"/>
+                            <line x1="410" y1="38" x2="410" y2="20" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="455" y1="52" x2="468" y2="40" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="462" y1="90" x2="480" y2="90" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- 4. <rect> & <circle> Tree -->
+                            <rect x="75" y="260" width="20" height="90" fill="#78350F"/>
+                            <circle cx="65" cy="225" r="28" fill="#16A34A"/>
+                            <circle cx="105" cy="225" r="28" fill="#16A34A"/>
+                            <circle cx="85" cy="195" r="30" fill="#16A34A"/>
+
+                            <!-- 5. <rect> House Body -->
+                            <rect x="150" y="200" width="200" height="150" fill="#9A3412"/>
+
+                            <!-- 6. <polygon> Roof -->
+                            <polygon points="150,200 250,100 350,200" fill="#C2410C"/>
+
+                            <!-- 7. <rect> Windows (Individual) -->
+                            <rect x="170" y="220" width="40" height="40" fill="#BAE6FD"/>
+                            <rect x="290" y="220" width="40" height="40" fill="#BAE6FD"/>
+
+                            <!-- 8. <rect> Door & <circle> Knob -->
+                            <rect x="230" y="270" width="40" height="80" fill="#7C2D12"/>
+                            <circle cx="262" cy="310" r="4" fill="#000000"/>
+
+                            <!-- 9. <path> Winding Path -->
+                            <path d="M 230 350 Q 130 410 235 500" fill="none" stroke="#F59E0B" stroke-width="4"/>
+                            <path d="M 245 350 Q 145 410 250 500" fill="none" stroke="#F59E0B" stroke-width="4"/>
+
+                            <!-- 10. <polyline> Grass Blades -->
+                            <polyline points="370,340 375,325 380,340 385,322 390,340" fill="none" stroke="#166534" stroke-width="2"/>
+
+                            <!-- 11. <text> House Label -->
+                            <text x="375" y="285" font-family="'Segoe UI', sans-serif" font-size="28" font-weight="bold" fill="#0F172A">House</text>
+                        </svg>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>&lt;rect&gt;:</strong> Canvas, grass, house body, door, windows, and trunk</li>
+                        <li><strong>&lt;polygon&gt;:</strong> 3-point triangular roof</li>
+                        <li><strong>&lt;circle&gt; &amp; &lt;ellipse&gt;:</strong> Sun, clouds, tree foliage, and door knob</li>
+                        <li><strong>&lt;line&gt; &amp; &lt;polyline&gt;:</strong> Sun rays and grass blades</li>
+                        <li><strong>&lt;path&gt;:</strong> Quadratic Bézier curve path (<code class="inline-code">Q</code>)</li>
+                        <li><strong>&lt;text&gt;:</strong> "House" label at (375, 285)</li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT: AFTER (Steps 3 & 4 Customised & Grouped) -->
+                <div class="svg-card highlighted-card">
+                    <div class="svg-card-header">
+                        <h3>After: Customised &amp; Grouped</h3>
+                        <span class="badge">Steps 3 &amp; 4</span>
+                    </div>
+                    <div class="svg-viewport">
+                        <!-- SVG 2: Customised, Grouped & Transformed -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="canvas-svg">
+                            <!-- Sky -->
+                            <rect width="500" height="500" fill="#38BDF8"/>
+
+                            <!-- Grouped Ellipse Clouds -->
+                            <g fill="#FFFFFF" opacity="0.9">
+                                <ellipse cx="120" cy="70" rx="35" ry="16"/>
+                                <ellipse cx="145" cy="62" rx="28" ry="18"/>
+                                <ellipse cx="170" cy="70" rx="30" ry="14"/>
+                            </g>
+
+                            <!-- Sun with Aura & Rays -->
+                            <circle cx="410" cy="85" r="46" fill="#FEF08A" opacity="0.4"/>
+                            <circle cx="410" cy="85" r="35" fill="#FACC15"/>
+                            <g stroke="#EAB308" stroke-width="3" stroke-linecap="round">
+                                <line x1="410" y1="35" x2="410" y2="20"/>
+                                <line x1="410" y1="135" x2="410" y2="150"/>
+                                <line x1="360" y1="85" x2="345" y2="85"/>
+                                <line x1="460" y1="85" x2="475" y2="85"/>
+                                <line x1="375" y1="50" x2="363" y2="38"/>
+                                <line x1="445" y1="120" x2="457" y2="132"/>
+                                <line x1="375" y1="120" x2="363" y2="132"/>
+                                <line x1="445" y1="50" x2="457" y2="38"/>
+                            </g>
+
+                            <!-- Lawn with Border Stroke -->
+                            <rect y="300" width="500" height="200" fill="#16A34A" stroke="#15803D" stroke-width="3"/>
+
+                            <!-- Picket Fence using <line> & <g> -->
+                            <g stroke="#F8FAFC" stroke-width="4" stroke-linecap="round" opacity="0.85">
+                                <line x1="20" y1="340" x2="140" y2="340"/>
+                                <line x1="20" y1="360" x2="140" y2="360"/>
+                                <line x1="30" y1="325" x2="30" y2="375"/>
+                                <line x1="55" y1="325" x2="55" y2="375"/>
+                                <line x1="80" y1="325" x2="80" y2="375"/>
+                                <line x1="105" y1="325" x2="105" y2="375"/>
+                                <line x1="130" y1="325" x2="130" y2="375"/>
+                            </g>
+
+                            <!-- Chimney & Curled Dashed Smoke -->
+                            <g id="chimney-assembly">
+                                <rect x="295" y="105" width="26" height="50" fill="#991B1B" stroke="#7F1D1D" stroke-width="2"/>
+                                <rect x="291" y="98" width="34" height="9" fill="#B91C1C" rx="2"/>
+                                <path d="M 308 95 Q 320 70 305 50 T 325 20" fill="none" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round" stroke-dasharray="6,4"/>
+                            </g>
+
+                            <!-- House Body with Custom Stroke -->
+                            <rect x="150" y="200" width="200" height="150" fill="#B45309" stroke="#78350F" stroke-width="3" rx="2"/>
+
+                            <!-- Roof with Overhang -->
+                            <polygon points="140,205 250,90 360,205" fill="#DC2626" stroke="#991B1B" stroke-width="3"/>
+                            <line x1="140" y1="205" x2="360" y2="205" stroke="#7F1D1D" stroke-width="4"/>
+
+                            <!-- STEP 4: WINDOWS GROUP WITH SHARED STYLING & TRANSLATE -->
+                            <g id="window-system" fill="#E0F2FE" stroke="#0369A1" stroke-width="3" stroke-linejoin="round">
+                                <!-- Window Left (Translated to x=170, y=225) -->
+                                <g transform="translate(170, 225)">
+                                    <rect width="45" height="45" rx="3"/>
+                                    <line x1="22.5" y1="0" x2="22.5" y2="45" stroke="#0369A1" stroke-width="2"/>
+                                    <line x1="0" y1="22.5" x2="45" y2="22.5" stroke="#0369A1" stroke-width="2"/>
+                                    <line x1="-3" y1="46" x2="48" y2="46" stroke="#78350F" stroke-width="3" stroke-linecap="round"/>
+                                </g>
+
+                                <!-- Window Right (Translated to x=285, y=225) -->
+                                <g transform="translate(285, 225)">
+                                    <rect width="45" height="45" rx="3"/>
+                                    <line x1="22.5" y1="0" x2="22.5" y2="45" stroke="#0369A1" stroke-width="2"/>
+                                    <line x1="0" y1="22.5" x2="45" y2="22.5" stroke="#0369A1" stroke-width="2"/>
+                                    <line x1="-3" y1="46" x2="48" y2="46" stroke="#78350F" stroke-width="3" stroke-linecap="round"/>
+                                </g>
+                            </g>
+
+                            <!-- Enhanced Door Group -->
+                            <g id="doorway">
+                                <rect x="228" y="268" width="44" height="82" fill="#78350F" rx="2"/>
+                                <rect x="232" y="272" width="36" height="78" fill="#92400E"/>
+                                <rect x="236" y="278" width="28" height="28" fill="#78350F" rx="2"/>
+                                <circle cx="260" cy="315" r="4.5" fill="#FACC15" stroke="#CA8A04" stroke-width="1.5"/>
+                                <rect x="222" y="348" width="56" height="7" fill="#64748B" rx="1"/>
+                            </g>
+
+                            <!-- Filled Pathway & Stepping Stones -->
+                            <path d="M 225 355 C 160 395 140 435 220 500 L 280 500 C 200 440 210 395 275 355 Z" fill="#D97706" opacity="0.9"/>
+                            <g fill="#FEF3C7" opacity="0.6">
+                                <ellipse cx="245" cy="375" rx="10" ry="4"/>
+                                <ellipse cx="215" cy="405" rx="13" ry="5"/>
+                                <ellipse cx="205" cy="445" rx="16" ry="6"/>
+                                <ellipse cx="230" cy="480" rx="18" ry="7"/>
+                            </g>
+
+                            <!-- Apple Tree -->
+                            <g id="apple-tree">
+                                <rect x="75" y="260" width="22" height="95" fill="#5C2E0B" rx="2"/>
+                                <circle cx="65" cy="225" r="30" fill="#15803D"/>
+                                <circle cx="105" cy="225" r="30" fill="#15803D"/>
+                                <circle cx="85" cy="190" r="34" fill="#16A34A"/>
+                                <circle cx="70" cy="210" r="4" fill="#DC2626"/>
+                                <circle cx="95" cy="205" r="4" fill="#DC2626"/>
+                                <circle cx="75" cy="235" r="4" fill="#DC2626"/>
+                                <circle cx="105" cy="230" r="4" fill="#DC2626"/>
+                            </g>
+
+                            <!-- Garden Bushes & Flowers -->
+                            <g id="flower-bushes">
+                                <ellipse cx="140" cy="350" rx="18" ry="10" fill="#15803D"/>
+                                <ellipse cx="360" cy="350" rx="20" ry="11" fill="#15803D"/>
+                                <circle cx="135" cy="345" r="4" fill="#EC4899"/>
+                                <circle cx="145" cy="348" r="3.5" fill="#F43F5E"/>
+                                <circle cx="355" cy="345" r="4" fill="#A855F7"/>
+                                <circle cx="368" cy="347" r="3.5" fill="#EC4899"/>
+                            </g>
+
+                            <!-- Banner Title -->
+                            <g transform="translate(355, 255)">
+                                <rect width="130" height="42" fill="#1E293B" rx="6" opacity="0.85"/>
+                                <text x="65" y="27" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="bold" fill="#F8FAFC" text-anchor="middle">Dream Home</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>&lt;g&gt; Grouping:</strong> Windows inherit <code class="inline-code">fill</code> and <code class="inline-code">stroke</code> from a single parent group</li>
+                        <li><strong>transform="translate(...)":</strong> Positioned via coordinate offsets rather than recalculated points</li>
+                        <li><strong>Chimney &amp; Smoke:</strong> Custom brick stack with dashed <code class="inline-code">&lt;path&gt;</code> stroke</li>
+                        <li><strong>Path &amp; Picket Fence:</strong> Filled pathway with stepping stones and wooden fence rails</li>
+                        <li><strong>Apples &amp; Garden Flowers:</strong> Added fruit accents and flower blossoms</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: SVG Coordinate System & Annotations -->
+        <section class="story-chapter">
+            <h2>Step 2: Understanding the SVG Coordinate System</h2>
+            <p>
+                Unlike traditional Cartesian mathematics where the $Y$-axis increases upward, the <strong>SVG coordinate space begins at the top-left corner $(0, 0)$</strong>:
+            </p>
+            <ul class="guide-bullets">
+                <li><strong>X-axis:</strong> Extends from left to right ($0 \rightarrow \text{viewBox width}$).</li>
+                <li><strong>Y-axis:</strong> Extends from top to bottom ($0 \rightarrow \text{viewBox height}$).</li>
+                <li><strong>Transformations:</strong> Group transformations (<code class="inline-code">translate(dx, dy)</code>) create localized sub-coordinate origins relative to the parent canvas.</li>
+            </ul>
+
+            <!-- Annotated Coordinate Diagram -->
+            <div class="chart-wrapper">
+                <div class="chart-card-header">
+                    <h3>Visual Coordinate Map (500 &times; 500 Canvas)</h3>
+                    <span class="badge">Coordinate Breakdown</span>
+                </div>
+                <div class="svg-viewport">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="canvas-svg coordinate-svg">
+                        <!-- Grid Lines every 50px -->
+                        <defs>
+                            <pattern id="coord-grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="500" fill="url(#coord-grid)"/>
+
+                        <!-- Ghost Baseline Shapes -->
+                        <rect x="150" y="200" width="200" height="150" fill="#9A3412" opacity="0.3"/>
+                        <polygon points="150,200 250,100 350,200" fill="#C2410C" opacity="0.3"/>
+                        <circle cx="410" cy="90" r="40" fill="#FACC15" opacity="0.4"/>
+                        <rect x="230" y="270" width="40" height="80" fill="#7C2D12" opacity="0.4"/>
+
+                        <!-- Coordinate Callout Lines & Pins -->
+                        <!-- Origin (0,0) -->
+                        <circle cx="10" cy="10" r="6" fill="#DC2626"/>
+                        <text x="22" y="16" font-size="12" font-weight="bold" fill="#DC2626">(0,0) Origin</text>
+
+                        <!-- Roof Apex -->
+                        <circle cx="250" cy="100" r="5" fill="#1E3A8A"/>
+                        <text x="250" y="88" font-size="11" font-weight="bold" fill="#1E3A8A" text-anchor="middle">Roof Apex: (250, 100)</text>
+
+                        <!-- House Top-Left -->
+                        <circle cx="150" cy="200" r="5" fill="#1E3A8A"/>
+                        <text x="145" y="192" font-size="11" font-weight="bold" fill="#1E3A8A" text-anchor="end">House (x=150, y=200)</text>
+
+                        <!-- Sun Center -->
+                        <circle cx="410" cy="90" r="4" fill="#B45309"/>
+                        <text x="410" y="145" font-size="11" font-weight="bold" fill="#B45309" text-anchor="middle">Sun: cx=410, cy=90, r=40</text>
+
+                        <!-- Door Origin -->
+                        <circle cx="230" cy="270" r="4" fill="#15803D"/>
+                        <text x="230" y="264" font-size="11" font-weight="bold" fill="#15803D">Door (x=230, y=270)</text>
+
+                        <!-- X and Y Canvas Arrows -->
+                        <line x1="0" y1="2" x2="490" y2="2" stroke="#DC2626" stroke-width="3"/>
+                        <polygon points="495,2 485,-2 485,6" fill="#DC2626"/>
+                        <text x="440" y="20" font-size="12" font-weight="bold" fill="#DC2626">+X Axis &rarr;</text>
+
+                        <line x1="2" y1="0" x2="2" y2="490" stroke="#DC2626" stroke-width="3"/>
+                        <polygon points="2,495 -2,485 6,485" fill="#DC2626"/>
+                        <text x="8" y="475" font-size="12" font-weight="bold" fill="#DC2626">+Y Axis &darr;</text>
+                    </svg>
+                </div>
+                <p class="chart-caption">
+                    Coordinate overlay illustrating how top-left anchors, radiuses, and polygon vertices correspond to pixel offsets in SVG syntax.
+                </p>
+            </div>
+
+            <!-- Shape Coordinate Reference Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>SVG Element</th>
+                            <th>Key Attributes</th>
+                            <th>Code Example</th>
+                            <th>Role in Drawing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;rect&gt;</code></td>
+                            <td><code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>, <code>rx</code></td>
+                            <td><code>&lt;rect x="150" y="200" width="200" height="150"/&gt;</code></td>
+                            <td>Walls, door, window frames, chimney</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;circle&gt;</code></td>
+                            <td><code>cx</code>, <code>cy</code>, <code>r</code></td>
+                            <td><code>&lt;circle cx="410" cy="85" r="35"/&gt;</code></td>
+                            <td>Sun, door knob, tree foliage, apples</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;ellipse&gt;</code></td>
+                            <td><code>cx</code>, <code>cy</code>, <code>rx</code>, <code>ry</code></td>
+                            <td><code>&lt;ellipse cx="140" cy="350" rx="18" ry="10"/&gt;</code></td>
+                            <td>Clouds, stepping stones, flower bushes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;line&gt;</code></td>
+                            <td><code>x1</code>, <code>y1</code>, <code>x2</code>, <code>y2</code></td>
+                            <td><code>&lt;line x1="410" y1="35" x2="410" y2="20"/&gt;</code></td>
+                            <td>Sun rays, fence pickets, window panes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;polygon&gt;</code></td>
+                            <td><code>points="x1,y1 x2,y2 ..."</code></td>
+                            <td><code>&lt;polygon points="140,205 250,90 360,205"/&gt;</code></td>
+                            <td>Triangular roof canopy</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;polyline&gt;</code></td>
+                            <td><code>points="x1,y1 x2,y2 ..."</code></td>
+                            <td><code>&lt;polyline points="370,340 375,325 380,340..."/&gt;</code></td>
+                            <td>Grass clumps and open segmented lines</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;path&gt;</code></td>
+                            <td><code>d="M... C... Q... Z"</code></td>
+                            <td><code>&lt;path d="M 308 95 Q 320 70 305 50..."/&gt;</code></td>
+                            <td>Curled chimney smoke and curved garden pathway</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;text&gt;</code></td>
+                            <td><code>x</code>, <code>y</code>, <code>text-anchor</code></td>
+                            <td><code>&lt;text x="65" y="27" text-anchor="middle"&gt;Dream Home&lt;/text&gt;</code></td>
+                            <td>Labels and signage</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;g&gt;</code></td>
+                            <td><code>transform</code>, presentation styling</td>
+                            <td><code>&lt;g id="window" transform="translate(170, 225)"&gt;</code></td>
+                            <td>Bundling windows, fences, and applying shared transforms</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Step 4 Explanation: Group Element -->
+        <section class="story-chapter">
+            <h2>Step 4: The Group Element (<code class="inline-code">&lt;g&gt;</code>) and Transformations</h2>
+            <p>
+                In SVG, repeating identical elements (such as multiple windows) by hand-coding absolute pixel coordinates for every sub-pane is error-prone. The <code class="inline-code">&lt;g&gt;</code> element solves this by:
+            </p>
+            <div class="takeaways-grid">
+                <div class="takeaway-card">
+                    <h4>1. Cascading Styles</h4>
+                    <p>Defining attributes like <code class="inline-code">fill="#E0F2FE"</code> and <code class="inline-code">stroke="#0369A1"</code> on the parent <code class="inline-code">&lt;g&gt;</code> automatically propagates them to all child rectangles and lines without redundant markup.</p>
+                </div>
+                <div class="takeaway-card">
+                    <h4>2. Modular Positioning</h4>
+                    <p>Both windows use the exact same internal layout (0 to 45px). Using <code class="inline-code">transform="translate(170, 225)"</code> and <code class="inline-code">transform="translate(285, 225)"</code> shifts the entire window assembly as a single atomic unit.</p>
+                </div>
+            </div>
+
+            <!-- Code block demonstration -->
+            <div class="code-card">
+                <div class="code-header">SVG Window Group Implementation (Step 4)</div>
+                <pre class="code-snippet"><code>&lt;!-- Parent Group: Defines shared window palette and stroke styling --&gt;
+&lt;g id="window-system" fill="#E0F2FE" stroke="#0369A1" stroke-width="3" stroke-linejoin="round"&gt;
+  
+  &lt;!-- Left Window: Positioned via translate offset (x=170, y=225) --&gt;
+  &lt;g transform="translate(170, 225)"&gt;
+    &lt;rect width="45" height="45" rx="3"/&gt;
+    &lt;line x1="22.5" y1="0" x2="22.5" y2="45" stroke="#0369A1" stroke-width="2"/&gt;
+    &lt;line x1="0" y1="22.5" x2="45" y2="22.5" stroke="#0369A1" stroke-width="2"/&gt;
+  &lt;/g&gt;
+
+  &lt;!-- Right Window: Identical internal geometry, translated to (x=285, y=225) --&gt;
+  &lt;g transform="translate(285, 225)"&gt;
+    &lt;rect width="45" height="45" rx="3"/&gt;
+    &lt;line x1="22.5" y1="0" x2="22.5" y2="45" stroke="#0369A1" stroke-width="2"/&gt;
+    &lt;line x1="0" y1="22.5" x2="45" y2="22.5" stroke="#0369A1" stroke-width="2"/&gt;
+  &lt;/g&gt;
+
+&lt;/g&gt;</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <span id="current-year"></span> TAN ZONG SENG. Swinburne University of Technology.</p>
+        <p class="genai-ack">Generative AI Acknowledgement: GenAI was used to assist with SVG geometry calculations and scaffolding.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
