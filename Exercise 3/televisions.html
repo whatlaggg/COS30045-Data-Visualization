@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Technology & Energy Consumption - Data Story</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/logo.png" alt="Power Logo" class="logo"
+                    onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'><rect width=\'40\' height=\'40\' fill=\'%23facc15\'/><text x=\'50%\' y=\'50%\' fill=\'black\' font-size=\'20\' font-family=\'Arial\' dominant-baseline=\'middle\' text-anchor=\'middle\'>⚡</text></svg>'">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="televisions.html" class="active">Televisions</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Story Header -->
+        <section class="story-intro">
+            <span class="story-tag">Data Story &bull; Exercise 3</span>
+            <h1>Does Screen Technology Dictate Your Electricity Bill?</h1>
+            <p class="story-subtitle">
+                An empirical investigation into 4,724 television models registered in the Australian Greenhouse and Energy Minimum Standards (GEMS) database, examining the interplay between display architecture, screen size, and annual energy usage.
+            </p>
+
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <span class="stat-number">4,724</span>
+                    <span class="stat-label">Total Television Models</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">80.8%</span>
+                    <span class="stat-label">Market Share: LCD (LED)</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">64.5"</span>
+                    <span class="stat-label">Average OLED Screen Size</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">-38 kWh</span>
+                    <span class="stat-label">OLED vs LED (Large Tier)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1: The Confounding Variable -->
+        <section class="story-chapter">
+            <h2>1. The Raw Data Dilemma: Why Direct Comparison Misleads</h2>
+            <p>
+                When buyers and researchers first look at the overall average annual consumption by screen technology, OLED displays appear to be the most power-hungry option on the market:
+            </p>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Screen Technology</th>
+                            <th>Market Share (Count)</th>
+                            <th>Avg. Diagonal Size</th>
+                            <th>Overall Mean Energy (CEC)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LCD (CCFL / Legacy)</strong></td>
+                            <td>12.4% (585 models)</td>
+                            <td>50.7 inches</td>
+                            <td>334.5 kWh/year</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LCD (LED Backlit)</strong></td>
+                            <td>80.8% (3,819 models)</td>
+                            <td>59.3 inches</td>
+                            <td>455.3 kWh/year</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OLED</strong></td>
+                            <td>6.8% (320 models)</td>
+                            <td>64.5 inches</td>
+                            <td>486.1 kWh/year</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout-box">
+                <h4>The Analytical Trap: Size Bias</h4>
+                <p>
+                    A naive reading suggests OLED consumes <strong>45% more energy</strong> than legacy LCD. However, this is a statistical artifact caused by a confounding variable: <strong>screen size</strong>. OLED technology is predominantly manufactured in premium, large form factors (averaging 64.5 inches), whereas legacy LCD models skew heavily toward smaller, low-power sizes (averaging 50.7 inches). Because larger screens demand exponentially more backlit surface area, overall averages distort the true comparison.
+                </p>
+            </div>
+        </section>
+
+        <!-- Chapter 2: The KNIME Visualisation -->
+        <section class="story-chapter">
+            <h2>2. Controlling for Size: The KNIME Pivot Analysis</h2>
+            <p>
+                To eliminate size bias, we segmented the dataset into three standardized screen tiers in KNIME using an expression rule: <strong>Small (&lt;43")</strong>, <strong>Medium (44"&ndash;65")</strong>, and <strong>Large (&gt;66")</strong>. We then constructed a Pivot node grouping by <code>Screen_Tech</code>, pivoting across <code>screensize_category</code>, and calculating the <strong>mean Labeled Energy Consumption (kWh/year)</strong>.
+            </p>
+
+            <!-- Embedded KNIME Chart Screenshot -->
+            <div class="chart-wrapper">
+                <div class="chart-card-header">
+                    <h3>KNIME Visualisation: Mean Energy Consumption by Screen Tech & Size Category</h3>
+                    <span class="badge">Grouped Bar Chart</span>
+                </div>
+                <div class="image-container">
+                    <img src="assets/img/Bar Chart.png" 
+                         alt="KNIME Grouped Bar Chart comparing LCD, LCD (LED), and OLED across large, medium, and small TV sizes" 
+                         class="knime-chart-image">
+                </div>
+                <div class="chart-legend-explainer">
+                    <span class="legend-chip chip-blue">■ LCD</span>
+                    <span class="legend-chip chip-green">■ LCD (LED)</span>
+                    <span class="legend-chip chip-yellow">■ OLED</span>
+                    <p class="chart-note">Source: Australian GEMS Television Energy Ratings Dataset processed in KNIME Analytics Platform.</p>
+                </div>
+            </div>
+
+            <!-- Quantitative Breakdown -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Size Category</th>
+                            <th>LCD (CCFL)</th>
+                            <th>LCD (LED)</th>
+                            <th>OLED</th>
+                            <th>Key Pattern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Small (&lt;43")</strong></td>
+                            <td>134.9 kWh/yr</td>
+                            <td>162.6 kWh/yr</td>
+                            <td>233.3 kWh/yr</td>
+                            <td>Small OLEDs draw higher power due to high-nit monitor panels.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Medium (44"&ndash;65")</strong></td>
+                            <td>384.6 kWh/yr</td>
+                            <td>407.1 kWh/yr</td>
+                            <td>390.7 kWh/yr</td>
+                            <td>Near-parity across technologies; OLED matches LED.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Large (&gt;66")</strong></td>
+                            <td>659.6 kWh/yr</td>
+                            <td>756.8 kWh/yr</td>
+                            <td>716.2 kWh/yr</td>
+                            <td><strong>Reversal:</strong> Large OLEDs consume 40 kWh/yr less than LED arrays.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Interpreting the Visual Findings -->
+        <section class="story-chapter">
+            <h2>3. Dissecting the Findings</h2>
+            
+            <div class="narrative-grid">
+                <div class="narrative-card">
+                    <h3>The Large-Screen Efficiency Reversal</h3>
+                    <p>
+                        In screen sizes exceeding 66 inches, <strong>LCD (LED) becomes the highest energy consumer</strong> at 756.8 kWh/year, exceeding OLED (716.2 kWh/year). Dense mini-LED backlights must remain illuminated across thousands of square centimeters to drive high peak brightness, whereas OLED pixels self-extinguish when displaying blacks and shadowy content, yielding lower cumulative power draw in home-theater environments.
+                    </p>
+                </div>
+
+                <div class="narrative-card">
+                    <h3>The Medium-Tier Neutrality</h3>
+                    <p>
+                        In the mass-market medium segment (44" to 65"), where 66% of Australian household purchases fall, the technology choice has virtually no financial impact. OLED (390.7 kWh/year) and LCD (LED) (407.1 kWh/year) differ by only 16.4 kWh annually, equivalent to less than <strong>$5.00 per year</strong> in electricity costs.
+                    </p>
+                </div>
+
+                <div class="narrative-card">
+                    <h3>Metric Methodology: Mean vs. Median</h3>
+                    <p>
+                        We adopted the <strong>mean</strong> for Labeled Energy Consumption because continuous power draw aggregates directly into kilowatt-hours on household utility bills. Conversely, for ordinal metrics like the <strong>Star2 Rating</strong> (1 to 8 stars), the <strong>median</strong> is the appropriate measure of central tendency because stars represent ranked discrete categories.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Audience-Specific Implications -->
+        <section class="story-chapter">
+            <h2>4. Target Audience Takeaways</h2>
+            <div class="takeaways-grid">
+                <div class="takeaway-card">
+                    <h4>For Consumers</h4>
+                    <p>
+                        Do not avoid OLED over electricity concerns. In popular living room sizes (55" to 75"), an OLED TV consumes equal or less energy than an equivalent high-brightness LED model. Focus on controlling panel brightness and turning off unused ambient backlights instead.
+                    </p>
+                </div>
+
+                <div class="takeaway-card">
+                    <h4>For Regulators & Policy Makers</h4>
+                    <p>
+                        Because LCD (LED) comprises over <strong>80% of the active market</strong> and accounts for the steepest energy climb at larger diagonal sizes, revisions to Australian Minimum Energy Performance Standards (MEPS) will achieve the highest carbon reduction by targeting high-wattage local dimming LED arrays.
+                    </p>
+                </div>
+
+                <div class="takeaway-card">
+                    <h4>For Researchers</h4>
+                    <p>
+                        The comparison highlights the danger of bivariate analysis without segmentation. Future appliance efficiency benchmarking must account for physical aperture surface area ($cm^2$) alongside nominal diagonal measurements to avoid false conclusions regarding display architecture efficiency.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <span id="current-year"></span> TAN ZONG SENG. Swinburne University of Technology.</p>
+        <p class="genai-ack">Generative AI Acknowledgement: Large Language Models were used to assist in structuring narrative text, data aggregation verification, and layout scaffolding.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
