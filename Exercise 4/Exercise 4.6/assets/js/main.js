@@ -1,4 +1,3 @@
-// Ensure DOM is fully loaded before attaching scripts
 document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Footer Year Autoupdate
@@ -65,52 +64,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ========================================================
-    // 4. Exercise 4.6: D3 Linear & Band Scales
+    // 4. Exercise 4.7: Adding Labels to the Bar Chart
     // ========================================================
     const svgContainer = d3.select(".responsive-svg-container");
 
     if (!svgContainer.empty()) {
-        // 1. Create SVG with a 500x500 square viewBox
+        // SVG Canvas with viewBox (Set to 650 width so right labels don't get clipped)
         const svg = svgContainer
             .append("svg")
-            .attr("viewBox", "0 0 500 500")
+            .attr("viewBox", "0 0 650 500")
             .style("border", "1px solid black");
 
-        // 2. Define drawBarChart using d3.scaleLinear and d3.scaleBand
+        // Function to build bar chart with groups and labels
         const drawBarChart = data => {
-            // Linear scale for continuous count data (0 to 1100 mapped to 0 to 500px width)
+            // Linear scale for bar lengths
             const xScale = d3.scaleLinear()
                 .domain([0, 1100])
                 .range([0, 500]);
 
-            // Band scale for categorical brand names mapped evenly down 0 to 500px height
+            // Band scale for brand positioning down the Y axis
             const yScale = d3.scaleBand()
                 .domain(data.map(d => d.brand))
                 .range([0, 500])
                 .padding(0.1);
 
-            // Draw bars sized and positioned by the scales
-            svg
-                .selectAll("rect")
+            // Group each brand's bar and text labels together in a <g> element
+            const barAndLabel = svg
+                .selectAll("g")
                 .data(data)
-                .join("rect")
+                .join("g")
+                .attr("transform", d => `translate(0, ${yScale(d.brand)})`);
+
+            // 1. Draw the bar rectangle
+            barAndLabel
+                .append("rect")
                 .attr("width", d => xScale(d.count))
                 .attr("height", yScale.bandwidth())
                 .attr("fill", "blue")
-                .attr("x", 0)
-                .attr("y", d => yScale(d.brand));
+                .attr("x", 100)
+                .attr("y", 0);
+
+            // 2. Draw the brand name label on the left (right-aligned at x=90)
+            barAndLabel
+                .append("text")
+                .text(d => d.brand)
+                .attr("x", 90)
+                .attr("y", 15)
+                .attr("text-anchor", "end")
+                .style("font-size", "13px");
+
+            // 3. Draw the count value label at the right tip of the bar
+            barAndLabel
+                .append("text")
+                .text(d => d.count)
+                .attr("x", d => 100 + xScale(d.count) + 4)
+                .attr("y", 12)
+                .style("font-size", "13px");
         };
 
-        // 3. Load CSV data, sort descending, and pass to drawBarChart
+        // Load data, sort descending, and render
         const loadData = path => {
             d3.csv(path, d => ({
                 brand: d.brand,
                 count: +d.count
             })).then(data => {
+                console.log(data);
+                console.log(data.length);
+                console.log(d3.max(data, d => d.count));
+                console.log(d3.min(data, d => d.count));
+
                 data.sort((a, b) => b.count - a.count);
                 drawBarChart(data);
             }).catch(() => {
-                // Fallback in case the file is referenced relative to the parent directory
                 if (path === "data/tvBrandCount.csv") {
                     loadData("../data/tvBrandCount.csv");
                 }
