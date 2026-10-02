@@ -1,7 +1,3 @@
-/* ========================================================
-   Exercise 6.1: CSV Data Loader
-   ======================================================== */
-
 const loadCSV = path => {
     d3.csv(path, d => ({
         brand: d.brand,
@@ -11,18 +7,27 @@ const loadCSV = path => {
         energyConsumption: +d.energyConsumption,
         star: +d.star
     })).then(data => {
-        console.log("Processed TV Data:", data);
+        console.log("Processed TV Data loaded successfully:", data.length, "rows");
 
-        // Call drawing and filter functions
+        // Clear any previous error messages
+        d3.select("#histogram").selectAll(".error-msg").remove();
+
+        // 1. Draw Histogram (Exercise 6.1)
         drawHistogram(data);
-        populateFilters(data);
-    }).catch(error => {
-        console.error("Error loading CSV from:", path, error);
 
-        // Fallbacks for alternative folder locations or names
+        // 2. Initialise Filters (Exercise 6.2)
+        populateFilters(data);
+
+        // 3. Draw Scatterplot (Exercise 6.3)
+        drawScatterplot(data);
+
+        // 4. Initialise Tooltip Handlers (Exercise 6.4)
+        createTooltip();
+        handleMouseEvents();
+
+    }).catch(error => {
+        console.error("Failed to load CSV from:", path, error);
         if (path === "data/Ex6_TVdata_withStar.csv") {
-            loadCSV("data/W6_TVdata.csv");
-        } else if (path === "data/W6_TVdata.csv") {
             loadCSV("../data/Ex6_TVdata_withStar.csv");
         }
     });

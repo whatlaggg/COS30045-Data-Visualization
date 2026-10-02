@@ -9,6 +9,13 @@ const height = 400;
 const innerWidth = width - margin.left - margin.right;
 const innerHeight = height - margin.top - margin.bottom;
 
+// Set up inner chart variable for scatterplot
+let innerChartS;
+
+// Set up tooltip dimensions
+const tooltipWidth = 65;
+const tooltipHeight = 32;
+
 // Palette matched to the site template
 const barColor = "#1e3a8a";          // Deep blue matching --primary-color
 const bodyBackgroundColor = "#ffffff"; // White matching the card background for bar gaps
@@ -16,6 +23,11 @@ const bodyBackgroundColor = "#ffffff"; // White matching the card background for
 // Global scales
 const xScale = d3.scaleLinear();
 const yScale = d3.scaleLinear();
+
+// Set up the scatterplot scales and color scale
+const xScaleS = d3.scaleLinear();
+const yScaleS = d3.scaleLinear();
+const colorScale = d3.scaleOrdinal();
 
 // D3 Bin Generator
 const binGenerator = d3.bin()
@@ -29,7 +41,7 @@ const filters_screen = [
     { id: "OLED", label: "OLED", isActive: false }
 ];
 
-// Exercise 6.2 Extension: Screen Size Filters (Below Histogram)
+// Exercise 6.2 Extension: Screen Size Filters
 const filters_size = [
     { id: "all", label: "All Sizes", isActive: true },
     { id: 24,    label: '24"',       isActive: false },
