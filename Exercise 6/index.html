@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Energy Consumption Histogram - Appliance Energy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- Site Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/logo.png" alt="Power Logo" class="logo"
+                    onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'><rect width=\'40\' height=\'40\' fill=\'%23facc15\'/><text x=\'50%\' y=\'50%\' fill=\'black\' font-size=\'20\' font-family=\'Arial\' dominant-baseline=\'middle\' text-anchor=\'middle\'>⚡</text></svg>'">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="televisions.html">Televisions</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Intro Section -->
+        <section class="intro">
+            <h1>TV Energy Consumption Distribution</h1>
+            <p>
+                Televisions vary considerably in annual energy usage depending on screen size and panel technology.
+                This histogram plots the frequency distribution of energy consumption (kWh/year) across 4,233 models in the Australian market.
+            </p>
+        </section>
+
+        <!-- Exercise 6.1: Histogram Visualisation Section -->
+        <section class="visualisation-section">
+            <h2>Energy Consumption Histogram</h2>
+            <p>Data grouped into 14 bins of 200 kWh increments using D3's <code>d3.bin()</code> generator:</p>
+            
+            <!-- Chart Container -->
+            <div id="histogram" class="responsive-svg-container"></div>
+        </section>
+
+        <!-- Data Source Card -->
+        <section class="data-source-section">
+            <h3>Data Source &amp; Methodology</h3>
+            <p>
+                Data sourced from the 
+                <a href="https://data.gov.au/data/dataset/energy-rating-for-household-appliances" target="_blank" rel="noopener noreferrer">
+                    Australian Energy Rating Database for Household Appliances (Televisions)
+                </a>, downloaded January 2026.
+            </p>
+            <p>
+                The vast majority of models cluster between 200 and 600 kWh/year, while high-brightness screens above 85" form an extended long tail up to 1,800+ kWh/year.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <span id="current-year"></span> TAN ZONG SENG. Swinburne University of Technology.</p>
+        <p class="genai-ack">Generative AI Acknowledgement: Large Language Models were used to assist in layout scaffolding, styling integration, and D3 histogram logic.</p>
+    </footer>
+
+    <!-- 1. D3 Library (v7) -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- 2. Site General Script (Footer Year & Accordion) -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- 3. Exercise 6.1 Modular Scripts in Correct Execution Order -->
+    <script src="assets/js/shared-constants.js"></script>
+    <script src="assets/js/interactions.js"></script>
+    <script src="assets/js/histogram.js"></script>
+    <script src="assets/js/load-data.js"></script>
+</body>
+
+</html>
