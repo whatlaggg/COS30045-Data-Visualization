@@ -276,3 +276,58 @@ footer {
     margin-top: 0.5rem;
     margin-bottom: 0;
 }
+
+/* --- Exercise 6.2: Filter Buttons --- */
+#filters_screen {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.filter {
+    min-width: 80px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--white);
+    background-color: var(--primary-color); /* Deep blue */
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.filter:hover {
+    background-color: var(--accent-color); /* Power yellow hover */
+    border-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.filter.active {
+    cursor: default;
+    background-color: var(--accent-color); /* Active button highlights in accent yellow */
+    border-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* --- Screen Size Filter --- */
+.size-filter-container {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
+}
+
+.filter-caption {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+#filters_size {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}

@@ -38,9 +38,19 @@
         <section class="visualisation-section">
             <h2>Energy Consumption Histogram</h2>
             <p>Data grouped into 14 bins of 200 kWh increments using D3's <code>d3.bin()</code> generator:</p>
-            
+
+            <!-- Exercise 6.2 Filter Buttons Container -->
+            <div id="filters_screen"></div>
+
             <!-- Chart Container -->
             <div id="histogram" class="responsive-svg-container"></div>
+
+            <!-- Extension: Screen Size Filters (Below Histogram) -->
+            <div class="size-filter-container">
+                <p class="filter-caption">Filter by Popular Screen Size (Diagonal Inches):</p>
+                <div id="filters_size"></div>
+            </div>
+
         </section>
 
         <!-- Data Source Card -->
