@@ -22,7 +22,7 @@ const loadCSV = path => {
         drawScatterplot(data);
 
         // 4. Initialise Tooltip Handlers (Exercise 6.4)
-        createTooltip();
+        createTooltip(data);
         handleMouseEvents();
 
     }).catch(error => {
